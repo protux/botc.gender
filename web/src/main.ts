@@ -25,18 +25,21 @@ app.innerHTML = `
 
     <section class="panel">
       <label for="input-json">Script-JSON</label>
-      <textarea
-        id="input-json"
-        placeholder='Füge hier das JSON aus dem offiziellen Script Tool ein …'
-        spellcheck="false"
-      ></textarea>
+      <div id="drop-zone" class="drop-zone">
+        <textarea
+          id="input-json"
+          placeholder='JSON einfügen oder .json-Datei hierher ziehen …'
+          spellcheck="false"
+        ></textarea>
+        <p class="drop-hint">JSON-Datei per Drag &amp; Drop ablegen</p>
+      </div>
 
       <div class="options">
         <div class="field">
           <label for="strategy">Strategie</label>
           <select id="strategy">
+            <option value="custom-suffix" selected>custom-suffix (Bloodstar, Huwig, …)</option>
             <option value="official-override">official-override (Script Tool)</option>
-            <option value="custom-suffix">custom-suffix (Bloodstar, Huwig, …)</option>
           </select>
         </div>
 
@@ -73,6 +76,7 @@ app.innerHTML = `
 `;
 
 const input = document.querySelector<HTMLTextAreaElement>("#input-json")!;
+const dropZone = document.querySelector<HTMLDivElement>("#drop-zone")!;
 const strategySelect = document.querySelector<HTMLSelectElement>("#strategy")!;
 const officialImages = document.querySelector<HTMLInputElement>("#official-images")!;
 const convertButton = document.querySelector<HTMLButtonElement>("#convert")!;
@@ -108,6 +112,84 @@ function updateResultUi(result: unknown[]) {
     `${roleCount} Rollen konvertiert (${scriptName}).`,
     "success",
   );
+}
+
+function loadJsonText(text: string, source?: string) {
+  input.value = text;
+  resetResultUi();
+  if (source) {
+    setStatus(`${source} geladen.`, "");
+  } else {
+    setStatus("");
+  }
+}
+
+async function loadJsonFile(file: File) {
+  const isJson =
+    file.type === "application/json" ||
+    file.name.toLowerCase().endsWith(".json") ||
+    file.type === "";
+
+  if (!isJson) {
+    setStatus("Bitte eine .json-Datei ablegen.", "error");
+    return;
+  }
+
+  try {
+    const text = await file.text();
+    loadJsonText(text, file.name);
+    await handleConvert();
+  } catch {
+    setStatus("Die Datei konnte nicht gelesen werden.", "error");
+  }
+}
+
+function setupDragAndDrop() {
+  let dragDepth = 0;
+
+  const setActive = (active: boolean) => {
+    dropZone.classList.toggle("drop-zone-active", active);
+  };
+
+  dropZone.addEventListener("dragenter", (event) => {
+    event.preventDefault();
+    dragDepth += 1;
+    setActive(true);
+  });
+
+  dropZone.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    if (event.dataTransfer) {
+      event.dataTransfer.dropEffect = "copy";
+    }
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dragDepth = Math.max(0, dragDepth - 1);
+    if (dragDepth === 0) {
+      setActive(false);
+    }
+  });
+
+  dropZone.addEventListener("drop", (event) => {
+    event.preventDefault();
+    dragDepth = 0;
+    setActive(false);
+
+    const file = event.dataTransfer?.files.item(0);
+    if (!file) {
+      setStatus("Keine Datei erkannt.", "error");
+      return;
+    }
+
+    void loadJsonFile(file);
+  });
+
+  for (const eventName of ["dragenter", "dragover", "drop"] as const) {
+    document.addEventListener(eventName, (event) => {
+      event.preventDefault();
+    });
+  }
 }
 
 function parseInputJson(raw: string): unknown[] {
@@ -190,6 +272,8 @@ input.addEventListener("input", () => {
 
 strategySelect.addEventListener("change", resetResultUi);
 officialImages.addEventListener("change", resetResultUi);
+
+setupDragAndDrop();
 
 void ensureStore().catch((error) => {
   const message = error instanceof Error ? error.message : "Daten konnten nicht geladen werden.";
