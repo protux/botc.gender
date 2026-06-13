@@ -1,0 +1,27 @@
+{
+  "name": "botc-gender-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npm run sync-data && vite",
+    "build": "npm run sync-data && tsc && vite build",
+    "preview": "vite preview",
+    "sync-data": "node scripts/sync-data.mjs",
+    "test": "npm run sync-data && vitest run"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "pako": "^2.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/pako": "^2.0.3",
+    "typescript": "~5.8.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.8"
+  },
+  "allowScripts": {
+    "esbuild": true
+  }
+}

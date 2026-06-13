@@ -10,8 +10,9 @@ from typing import Any
 import yaml
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
-PROJECT_ROOT = PACKAGE_ROOT.parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
+CLI_ROOT = PACKAGE_ROOT.parent.parent
+REPO_ROOT = CLI_ROOT.parent
+DATA_DIR = REPO_ROOT / "data"
 GENDER_DIR = DATA_DIR / "gender"
 
 

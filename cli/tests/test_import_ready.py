@@ -10,7 +10,7 @@ from botc_gender.data import load_data_store
 from botc_gender.pdf_targets import PDF_TARGET_INFO, format_pdf_instructions
 
 FIXTURES = Path(__file__).parent / "fixtures"
-OUTPUT = Path(__file__).parent.parent / "output"
+OUTPUT = Path(__file__).parent.parent.parent / "output"
 
 
 @pytest.fixture(scope="module")

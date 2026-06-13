@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 DATA="$ROOT/data"
 
 curl -sL "https://raw.githubusercontent.com/ThePandemoniumInstitute/botc-translations/main/game/de.json" \

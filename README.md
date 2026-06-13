@@ -2,23 +2,44 @@
 
 Konvertiert Blood-on-the-Clocktower-Script-JSON (nur Charakter-IDs) in vollständige, **gegenderte deutsche** Script-Dateien für Druck und digitale Tools.
 
-## Installation
+## Web-App
+
+Die statische Web-App liegt in [`web/`](web/). Sie läuft vollständig im Browser – kein Upload, keine Server-Logik.
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Nach der Konvertierung:
+
+- **Open in Script Tool** – öffnet [script.bloodontheclocktower.com](https://script.bloodontheclocktower.com/) mit dem gegenderten Script (gzip + Base64 in der URL, wie bei [botcscripts.com](https://www.botcscripts.com/))
+- **JSON herunterladen** – optional
+
+Deployment auf GitHub Pages: Workflow [`.github/workflows/deploy-web.yml`](.github/workflows/deploy-web.yml). In den Repository-Einstellungen **Pages → Source: GitHub Actions** aktivieren.
+
+## CLI
+
+Das Python-CLI liegt in [`cli/`](cli/).
+
+### Installation
 
 ```bash
 cd botc.gender
-pip install -e ".[dev]"
+pip install -e "cli/[dev]"
 ```
 
-## Schnellstart
+### Schnellstart
 
 ```bash
 # Standard: gegenderte Custom-Rollen (librarian_de, …) mit offiziellen Bildern
-botc-gender convert tests/fixtures/everyone-can-play.json \
+botc-gender convert cli/tests/fixtures/everyone-can-play.json \
   -o output/everyone-de-gendered.json \
   --official
 
 # Workaround fürs offizielle Script-Tool (offizielle IDs, gegenderte Texte)
-botc-gender convert tests/fixtures/everyone-can-play.json \
+botc-gender convert cli/tests/fixtures/everyone-can-play.json \
   -o output/everyone-de-official-ids.json \
   --strategy official-override \
   --official
@@ -27,17 +48,17 @@ botc-gender convert tests/fixtures/everyone-can-play.json \
 ## Workflow
 
 1. Script im [offiziellen Tool](https://script.bloodontheclocktower.com/) erstellen → JSON exportieren
-2. Mit `botc-gender convert` gegendertes JSON erzeugen
-3. JSON im gewünschten PDF-Tool importieren (siehe unten)
+2. In der Web-App konvertieren **oder** mit `botc-gender convert` erzeugen
+3. „Open in Script Tool“ nutzen **oder** JSON im gewünschten PDF-Tool importieren
 
 ## Strategien
 
 | Strategie | Charakter-IDs | Für |
 |-----------|---------------|-----|
-| `custom-suffix` (Standard) | Custom IDs (`librarian_de`) | Bloodstar, unofficial Script Tool, Huwig, clocktower.online |
-| `official-override` | Offizielle IDs (`librarian`) | Workaround fürs offizielle Script-Tool |
+| `custom-suffix` (CLI-Standard) | Custom IDs (`librarian_de`) | Bloodstar, unofficial Script Tool, Huwig, clocktower.online |
+| `official-override` | Offizielle IDs (`librarian`) | Offizielles Script Tool (Web-Standard) |
 
-`--official` betrifft **nur die Bilder** — die Charakter-IDs bleiben von der gewählten Strategie. Damit bekommst du z. B. `librarian_de` mit offiziellen Icons von [release.botc.app](https://release.botc.app/resources/characters/) statt Community-Icons (townsquare).
+`--official` / „Offizielle Bilder“ betrifft **nur die Bilder** — die Charakter-IDs bleiben von der gewählten Strategie.
 
 ## PDF-Ziele (`--pdf-target`)
 
@@ -52,12 +73,6 @@ botc-gender pdf-targets
 | `huwig` | https://www.huwig.de/clocktower/deutsche-spielerblaetter-fuer-blood-on-the-clocktower/ | `custom-suffix` |
 | `scriptmaker` | https://github.com/rsarvar1a/scriptmaker | `custom-suffix` |
 
-Beispiel mit Anleitung auf stderr:
-
-```bash
-botc-gender convert script.json -o out.json --pdf-target huwig
-```
-
 ## Gender-Regeln
 
 Konfiguration in `data/gender/`:
@@ -70,7 +85,8 @@ Konfiguration in `data/gender/`:
 ## Daten aktualisieren
 
 ```bash
-./scripts/update_data.sh
+./cli/scripts/update_data.sh
+cd web && npm run sync-data
 ```
 
 Quellen:
@@ -81,5 +97,6 @@ Quellen:
 ## Tests
 
 ```bash
-pytest
+pytest cli/tests
+cd web && npm test
 ```
