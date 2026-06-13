@@ -20,8 +20,60 @@ def store():
 def test_librarian_gendering(store):
     texts = build_gendered_role_texts(store, "librarian")
     assert texts["name"] == "Bibliothekar:in"
-    assert "Spieler:in" in texts["ability"]
+    assert "1 von 2 Spieler:innen" in texts["ability"]
+    assert ":in:innen" not in texts["ability"]
     assert "Spielern" not in texts["ability"]
+
+
+def test_fortuneteller_gendering(store):
+    texts = build_gendered_role_texts(store, "fortuneteller")
+    assert texts["name"] == "Wahrsager:in"
+    assert "2 Spieler:innen." in texts["ability"]
+    assert "Spieler:in:" not in texts["ability"]
+    assert ", der dir" not in texts["ability"]
+
+
+def test_empath_gendering(store):
+    texts = build_gendered_role_texts(store, "empath")
+    assert texts["name"] == "Empath:in"
+    assert "Nachbar:innen" in texts["ability"]
+
+
+def test_slayer_neutral_pronouns(store):
+    texts = build_gendered_role_texts(store, "slayer")
+    assert texts["name"] == "Dämonenjäger:in"
+    assert "1 Spieler:in." in texts["ability"]
+    assert "Falls die Person der Dämon ist, stirbt die Person." in texts["ability"]
+    assert "Falls er" not in texts["ability"]
+
+
+def test_monk_keeps_name_and_neutral_ability(store):
+    texts = build_gendered_role_texts(store, "monk")
+    assert texts["name"] == "Mönch"
+    assert "Die Person ist heute Nacht sicher vor dem Dämon." in texts["ability"]
+    assert " Er " not in texts["ability"]
+
+
+def test_mayor_neutral_phrasing(store):
+    texts = build_gendered_role_texts(store, "mayor")
+    assert "3 Spieler:innen leben" in texts["ability"]
+    assert "eine andere Person sterben" in texts["ability"]
+
+
+def test_moonchild_neutral_phrasing(store):
+    texts = build_gendered_role_texts(store, "moonchild")
+    assert texts["name"] == "Mondkind"
+    assert "Falls die Person gut war" in texts["ability"]
+    assert "ein guter" not in texts["ability"]
+
+
+def test_devilsadvocate_and_spy_phrasing(store):
+    devil = build_gendered_role_texts(store, "devilsadvocate")
+    assert devil["name"] == "Teufelsadvokat"
+    assert "1 andere:n als" in devil["ability"]
+
+    spy = build_gendered_role_texts(store, "spy")
+    assert "als ein:e Bürger:in oder Außenseiter:in" in spy["ability"]
 
 
 def test_grandmother_keeps_name(store):

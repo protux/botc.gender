@@ -15,12 +15,49 @@ FEMININE_NAME_SUFFIXES = (
     "witwe",
 )
 
+# Safety net if a stem is gendered twice (e.g. Spieler:innen -> Spieler:in:innen).
+_DOUBLE_GENDER_PATTERNS: list[tuple[re.Pattern[str], str]] = [
+    (re.compile(r":in:innen\b"), ":innen"),
+    (re.compile(r":in:in\b"), ":in"),
+    (re.compile(r"\bSpieler:in:\s"), "Spieler:in. "),
+    (re.compile(r"\bSpieler:innen:\s"), "Spieler:innen. "),
+]
+
+_NUMBERED_SPIELER_COLON = re.compile(r"\b(\d+)\s+Spieler:")
+_PLURAL_SPIELER_IN = re.compile(r"\b(\d+)\s+Spieler:in\b")
+
+
+def _fix_numbered_spieler_colon(text: str) -> str:
+    """Turn instruction syntax like '2 Spieler:' into gendered '2 Spieler:innen.'"""
+
+    def repl(match: re.Match[str]) -> str:
+        count = int(match.group(1))
+        form = "Spieler:innen" if count != 1 else "Spieler:in"
+        return f"{count} {form}."
+
+    return _NUMBERED_SPIELER_COLON.sub(repl, text)
+
+
+def _fix_plural_spieler_in(text: str) -> str:
+    def repl(match: re.Match[str]) -> str:
+        count = int(match.group(1))
+        if count == 1:
+            return match.group(0)
+        return f"{count} Spieler:innen"
+
+    return _PLURAL_SPIELER_IN.sub(repl, text)
+
 
 def apply_replacements(text: str, config: GenderConfig) -> str:
     if not text:
         return text
-    result = text
+    result = _fix_numbered_spieler_colon(text)
     for pattern, replacement in config.replacements:
+        result = pattern.sub(replacement, result)
+    result = _fix_plural_spieler_in(result)
+    for pattern, replacement in config.pronouns:
+        result = pattern.sub(replacement, result)
+    for pattern, replacement in _DOUBLE_GENDER_PATTERNS:
         result = pattern.sub(replacement, result)
     return result
 

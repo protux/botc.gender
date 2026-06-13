@@ -4,4 +4,12 @@ librarian:
   name: "Bibliothekar:in"
 
 devilsadvocate:
-  name: "Teufelsadvokat:in"
+  ability: "Wähle jede Nacht 1 lebendigen Spieler:in (1 andere:n als in der vorherigen Nacht). Falls die Person am nächsten Tag hingerichtet wird, stirbt die Person nicht."
+
+fortuneteller:
+  name: "Wahrsager:in"
+  ability: "Wähle jede Nacht 2 Spieler:innen. Du erfährst, ob 1 davon der Dämon ist. 1 gute:r Spieler:in erscheint dir fälschlich als Dämon."
+
+empath:
+  name: "Empath:in"
+  ability: "Jede Nacht erfährst du, wie viele deiner 2 lebendigen Nachbar:innen böse sind."

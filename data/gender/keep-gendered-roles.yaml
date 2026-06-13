@@ -5,7 +5,6 @@
 - id: princess
 - id: chambermaid
 - id: duchess
-- id: fortuneteller
 - id: highpriestess
 - id: magician
 - id: matron
@@ -19,6 +18,7 @@
 - id: casanova
 - id: godfather
 - id: devilsadvocate
+- id: monk
 - id: choirboy
 - id: huntsman
 - id: general

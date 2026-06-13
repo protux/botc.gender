@@ -18,6 +18,7 @@ GENDER_DIR = DATA_DIR / "gender"
 @dataclass
 class GenderConfig:
     replacements: list[tuple[re.Pattern[str], str]] = field(default_factory=list)
+    pronouns: list[tuple[re.Pattern[str], str]] = field(default_factory=list)
     keep_gendered_roles: set[str] = field(default_factory=set)
     neutral_roles: set[str] = field(default_factory=set)
     overrides: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -58,8 +59,14 @@ def load_gender_config(gender_dir: Path = GENDER_DIR) -> GenderConfig:
 
     overrides = _load_yaml(gender_dir / "overrides.yaml") or {}
 
+    raw_pronouns = _load_yaml(gender_dir / "pronouns.yaml") or []
+    pronouns: list[tuple[re.Pattern[str], str]] = []
+    for entry in raw_pronouns:
+        pronouns.append((re.compile(entry["pattern"]), entry["replacement"]))
+
     return GenderConfig(
         replacements=replacements,
+        pronouns=pronouns,
         keep_gendered_roles=keep_gendered_roles,
         neutral_roles=neutral_roles,
         overrides=overrides,
