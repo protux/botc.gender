@@ -32,8 +32,10 @@ def build_parser() -> argparse.ArgumentParser:
     convert_parser.add_argument(
         "--strategy",
         choices=["official-override", "custom-suffix"],
-        default="official-override",
-        help="ID strategy for output characters",
+        default="custom-suffix",
+        help=(
+            "Character ID strategy (default: custom-suffix for gegenderte Custom-Rollen)"
+        ),
     )
     convert_parser.add_argument(
         "--suffix",
@@ -44,6 +46,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--pdf-target",
         choices=list(PDF_TARGET_INFO.keys()),
         help="Print workflow instructions for a PDF generation tool",
+    )
+    convert_parser.add_argument(
+        "--official",
+        action="store_true",
+        help=(
+            "Use official character icons from release.botc.app (images only; "
+            "does not change character IDs or strategy)"
+        ),
     )
     convert_parser.add_argument(
         "--data-dir",
@@ -82,6 +92,7 @@ def main(argv: list[str] | None = None) -> int:
             raw,
             strategy=args.strategy,
             suffix=args.suffix,
+            use_official_images=args.official,
         )
         payload = json.dumps(result, ensure_ascii=False, indent=2) + "\n"
 

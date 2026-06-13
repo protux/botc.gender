@@ -4,6 +4,7 @@ from typing import Any
 
 from botc_gender.formats.strategies.official_override import resolve_role_id
 from botc_gender.formats.strategies.types import Strategy
+from botc_gender.images import official_image_urls
 
 
 def build_character_object(
@@ -13,6 +14,7 @@ def build_character_object(
     *,
     strategy: Strategy,
     suffix: str = "_de",
+    use_official_images: bool = False,
 ) -> dict[str, Any]:
     output_id = resolve_role_id(role_id, strategy, suffix)
 
@@ -25,7 +27,13 @@ def build_character_object(
 
     if metadata.get("edition"):
         character["edition"] = metadata["edition"]
-    if metadata.get("image"):
+    if use_official_images:
+        character["image"] = official_image_urls(
+            role_id=role_id,
+            edition=str(metadata.get("edition", "")),
+            team=metadata["team"],
+        )
+    elif metadata.get("image"):
         character["image"] = metadata["image"]
     if metadata.get("firstNight") is not None:
         character["firstNight"] = metadata["firstNight"]

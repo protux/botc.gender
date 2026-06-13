@@ -52,7 +52,37 @@ def test_convert_everyone_can_play_custom_suffix(store):
     assert all(role_id.endswith("_de") for role_id in ids)
 
 
-def test_all_script_roles_convert(store):
+def test_default_strategy_is_custom_suffix(store):
+    raw = json.loads((FIXTURES / "everyone-can-play.json").read_text(encoding="utf-8"))
+    result = convert_script(store, raw)
+    assert result[1]["id"] == "librarian_de"
+
+
+def test_official_images_use_release_botc_app(store):
+    raw = json.loads((FIXTURES / "everyone-can-play.json").read_text(encoding="utf-8"))
+    result = convert_script(store, raw, use_official_images=True)
+    librarian = next(entry for entry in result if entry.get("id") == "librarian_de")
+    imp = next(entry for entry in result if entry.get("id") == "imp_de")
+
+    assert librarian["image"] == [
+        "https://release.botc.app/resources/characters/tb/librarian_g.webp",
+        "https://release.botc.app/resources/characters/tb/librarian_e.webp",
+    ]
+    assert imp["image"] == [
+        "https://release.botc.app/resources/characters/tb/imp_e.webp",
+        "https://release.botc.app/resources/characters/tb/imp_g.webp",
+    ]
+
+
+def test_default_images_use_community_source(store):
+    raw = json.loads((FIXTURES / "everyone-can-play.json").read_text(encoding="utf-8"))
+    result = convert_script(store, raw, use_official_images=False)
+    librarian = next(entry for entry in result if entry.get("id") == "librarian_de")
+    image = librarian["image"]
+    if isinstance(image, list):
+        image = image[0]
+    assert "townsquare" in image
+
     raw = json.loads((FIXTURES / "everyone-can-play.json").read_text(encoding="utf-8"))
     result = convert_script(store, raw)
     for entry in result[1:]:

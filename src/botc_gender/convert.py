@@ -32,8 +32,9 @@ def convert_script(
     store: DataStore,
     raw_script: list[Any],
     *,
-    strategy: Strategy = "official-override",
+    strategy: Strategy = "custom-suffix",
     suffix: str = "_de",
+    use_official_images: bool = False,
 ) -> list[Any]:
     meta, role_ids = parse_script_input(raw_script)
     characters: list[dict[str, Any]] = []
@@ -50,6 +51,7 @@ def convert_script(
                 metadata,
                 strategy=strategy,
                 suffix=suffix,
+                use_official_images=use_official_images,
             )
         )
 

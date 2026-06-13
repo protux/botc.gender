@@ -12,14 +12,16 @@ pip install -e ".[dev]"
 ## Schnellstart
 
 ```bash
+# Standard: gegenderte Custom-Rollen (librarian_de, …) mit offiziellen Bildern
 botc-gender convert tests/fixtures/everyone-can-play.json \
-  -o output/everyone-de-official.json \
-  --strategy official-override
+  -o output/everyone-de-gendered.json \
+  --official
 
+# Workaround fürs offizielle Script-Tool (offizielle IDs, gegenderte Texte)
 botc-gender convert tests/fixtures/everyone-can-play.json \
-  -o output/everyone-de-bloodstar.json \
-  --strategy custom-suffix \
-  --pdf-target unofficial-script-tool
+  -o output/everyone-de-official-ids.json \
+  --strategy official-override \
+  --official
 ```
 
 ## Workflow
@@ -32,8 +34,10 @@ botc-gender convert tests/fixtures/everyone-can-play.json \
 
 | Strategie | Charakter-IDs | Für |
 |-----------|---------------|-----|
-| `official-override` (Standard) | Offizielle IDs (`librarian`) | Workaround fürs offizielle Script-Tool |
-| `custom-suffix` | Custom IDs (`librarian_de`) | Bloodstar, unofficial Script Tool, Huwig, clocktower.online |
+| `custom-suffix` (Standard) | Custom IDs (`librarian_de`) | Bloodstar, unofficial Script Tool, Huwig, clocktower.online |
+| `official-override` | Offizielle IDs (`librarian`) | Workaround fürs offizielle Script-Tool |
+
+`--official` betrifft **nur die Bilder** — die Charakter-IDs bleiben von der gewählten Strategie. Damit bekommst du z. B. `librarian_de` mit offiziellen Icons von [release.botc.app](https://release.botc.app/resources/characters/) statt Community-Icons (townsquare).
 
 ## PDF-Ziele (`--pdf-target`)
 
