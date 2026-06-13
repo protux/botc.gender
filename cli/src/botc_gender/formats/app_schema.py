@@ -28,11 +28,15 @@ def build_character_object(
     if metadata.get("edition"):
         character["edition"] = metadata["edition"]
     if use_official_images:
-        character["image"] = official_image_urls(
+        images = official_image_urls(
             role_id=role_id,
             edition=str(metadata.get("edition", "")),
             team=metadata["team"],
         )
+        if images:
+            character["image"] = images
+        elif metadata.get("image"):
+            character["image"] = metadata["image"]
     elif metadata.get("image"):
         character["image"] = metadata["image"]
     if metadata.get("firstNight") is not None:

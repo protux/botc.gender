@@ -1,6 +1,8 @@
 import "./style.css";
 import { convertScript, loadDataStore } from "./lib/convert";
+import { initRoleEditions } from "./lib/images";
 import { scriptToolUrl } from "./lib/scriptToolUrl";
+import { buildContactEmail, buildMailtoHref, contactFallbackText } from "./lib/contact";
 import type { Strategy } from "./lib/strategies";
 
 interface AppState {
@@ -70,6 +72,12 @@ app.innerHTML = `
       <p>
         CLI und Datenquellen:
         <a href="https://github.com/ThePandemoniumInstitute/botc-translations">botc-translations</a>
+      </p>
+      <p class="contact">
+        Kontakt:
+        <button id="show-email" class="contact-button" type="button">E-Mail anzeigen</button>
+        <span id="contact-fallback" class="contact-fallback">${contactFallbackText}</span>
+        <a id="contact-email" class="contact-email hidden" href="#"></a>
       </p>
     </footer>
   </main>
@@ -205,6 +213,7 @@ async function ensureStore() {
     return dataStore;
   }
   setStatus("Lade Rollendaten …");
+  await initRoleEditions();
   dataStore = await loadDataStore();
   setStatus("");
   return dataStore;
@@ -274,6 +283,23 @@ strategySelect.addEventListener("change", resetResultUi);
 officialImages.addEventListener("change", resetResultUi);
 
 setupDragAndDrop();
+setupContactEmail();
+
+function setupContactEmail() {
+  const button = document.querySelector<HTMLButtonElement>("#show-email")!;
+  const link = document.querySelector<HTMLAnchorElement>("#contact-email")!;
+  const fallback = document.querySelector<HTMLSpanElement>("#contact-fallback")!;
+
+  button.addEventListener("click", () => {
+    const email = buildContactEmail();
+    link.href = buildMailtoHref();
+    link.textContent = email;
+    link.classList.remove("hidden");
+    fallback.classList.add("hidden");
+    button.classList.add("hidden");
+    link.focus();
+  });
+}
 
 void ensureStore().catch((error) => {
   const message = error instanceof Error ? error.message : "Daten konnten nicht geladen werden.";

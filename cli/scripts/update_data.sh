@@ -13,5 +13,7 @@ curl -sL "https://raw.githubusercontent.com/RealVidy/botc-translations/main/asse
   -o "$DATA/characters-de-community.json"
 
 python3 "$ROOT/scripts/merge_characters_en.py"
+python3 "$ROOT/scripts/build_role_editions.py"
+python3 "$ROOT/scripts/patch_characters_en.py"
 
 echo "Updated data snapshots in $DATA"

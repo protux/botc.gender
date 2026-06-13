@@ -133,7 +133,7 @@ def test_default_images_use_community_source(store):
     image = librarian["image"]
     if isinstance(image, list):
         image = image[0]
-    assert "townsquare" in image
+    assert "release.botc.app" in image
 
     raw = json.loads((FIXTURES / "everyone-can-play.json").read_text(encoding="utf-8"))
     result = convert_script(store, raw)
@@ -143,6 +143,16 @@ def test_default_images_use_community_source(store):
         assert entry["ability"]
         assert len(entry["name"]) <= 30
         assert len(entry["ability"]) <= 250
+
+
+def test_stormcatcher_script_images(store):
+    raw = json.loads((FIXTURES / "stormcatcher-goon.json").read_text(encoding="utf-8"))
+    result = convert_script(store, raw, strategy="official-override", use_official_images=True)
+    shugenja = next(entry for entry in result if entry.get("id") == "shugenja")
+    stormcatcher = next(entry for entry in result if entry.get("id") == "stormcatcher")
+
+    assert shugenja["image"][0].endswith("/carousel/shugenja_g.webp")
+    assert "stormcatcher" in stormcatcher["image"]
 
 
 def test_shugenja_converts(store):

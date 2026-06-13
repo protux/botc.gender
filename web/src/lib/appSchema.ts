@@ -33,11 +33,16 @@ export function buildCharacterObject(
     character.edition = metadata.edition;
   }
   if (options.useOfficialImages) {
-    character.image = officialImageUrls(
+    const images = officialImageUrls(
       roleId,
       String(metadata.edition ?? ""),
       String(metadata.team ?? ""),
     );
+    if (images) {
+      character.image = images;
+    } else if (metadata.image) {
+      character.image = metadata.image;
+    }
   } else if (metadata.image) {
     character.image = metadata.image;
   }

@@ -18,6 +18,15 @@ from botc_gender.images import official_image_urls
             ],
         ),
         (
+            "shugenja",
+            "carousel",
+            "townsfolk",
+            [
+                "https://release.botc.app/resources/characters/carousel/shugenja_g.webp",
+                "https://release.botc.app/resources/characters/carousel/shugenja_e.webp",
+            ],
+        ),
+        (
             "imp",
             "tb",
             "demon",
@@ -35,6 +44,18 @@ from botc_gender.images import official_image_urls
                 "https://release.botc.app/resources/characters/tb/beggar_g.webp",
                 "https://release.botc.app/resources/characters/tb/beggar_e.webp",
             ],
+        ),
+        (
+            "djinn",
+            "fabled",
+            "fabled",
+            ["https://release.botc.app/resources/characters/fabled/djinn.webp"],
+        ),
+        (
+            "stormcatcher",
+            "",
+            "fabled",
+            None,
         ),
     ],
 )

@@ -235,3 +235,39 @@ footer {
 footer a {
   color: inherit;
 }
+
+.contact {
+  margin-top: 0.75rem;
+}
+
+.contact-button {
+  appearance: none;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0.35rem 0.85rem;
+  font: inherit;
+  font-size: inherit;
+  font-weight: 600;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+
+.contact-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.contact-fallback {
+  margin-left: 0.35rem;
+}
+
+.contact-email.hidden,
+.contact-fallback.hidden,
+.contact-button.hidden {
+  display: none;
+}
+
+.contact-email {
+  margin-left: 0.35rem;
+}
