@@ -13,3 +13,9 @@ fortuneteller:
 empath:
   name: "Empath:in"
   ability: "Jede Nacht erfährst du, wie viele deiner 2 lebendigen Nachbar:innen böse sind."
+
+noble:
+  name: "Adlige:r"
+
+amnesiac:
+  name: "Vergessliche:r"

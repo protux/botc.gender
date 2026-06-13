@@ -145,6 +145,33 @@ def test_default_images_use_community_source(store):
         assert len(entry["ability"]) <= 250
 
 
+def test_noble_uses_adliger_name(store):
+    texts = build_gendered_role_texts(store, "noble")
+    assert texts["name"] == "Adlige:r"
+
+
+def test_amnesiac_uses_vergesslicher_name(store):
+    texts = build_gendered_role_texts(store, "amnesiac")
+    assert texts["name"] == "Vergessliche:r"
+
+
+def test_villageidiot_keeps_name(store):
+    texts = build_gendered_role_texts(store, "villageidiot")
+    assert texts["name"] == "Dorftrottel"
+    assert "Dorftrottel:in" not in texts.get("ability", "")
+
+
+@pytest.mark.parametrize("role_id,expected_name", [
+    ("lilmonsta", "Lil' Monsta"),
+    ("ojo", "Ojo"),
+    ("savant", "Savant"),
+    ("cerenovus", "Cerenovus"),
+])
+def test_neutral_role_names_unchanged(store, role_id, expected_name):
+    texts = build_gendered_role_texts(store, role_id)
+    assert texts["name"] == expected_name
+
+
 def test_stormcatcher_script_images(store):
     raw = json.loads((FIXTURES / "stormcatcher-goon.json").read_text(encoding="utf-8"))
     result = convert_script(store, raw, strategy="official-override", use_official_images=True)
