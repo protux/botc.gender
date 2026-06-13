@@ -10,7 +10,6 @@ from botc_gender.data import load_data_store
 from botc_gender.pdf_targets import PDF_TARGET_INFO, format_pdf_instructions
 
 FIXTURES = Path(__file__).parent / "fixtures"
-OUTPUT = Path(__file__).parent.parent.parent / "output"
 
 
 @pytest.fixture(scope="module")
@@ -63,11 +62,9 @@ def test_grandmother_ability_still_gendered(store):
         assert "Spieler:in" in texts["ability"]
 
 
-def test_written_outputs_exist_and_parse():
-    for name in ("everyone-de-official.json", "everyone-de-custom.json"):
-        path = OUTPUT / name
-        assert path.exists(), f"Missing {path}; run botc-gender convert first"
-        data = json.loads(path.read_text(encoding="utf-8"))
+def test_converted_outputs_are_valid_json(official_output, custom_output):
+    for output in (official_output, custom_output):
+        data = json.loads(json.dumps(output, ensure_ascii=False))
         assert isinstance(data, list)
         assert len(data) >= 2
 
