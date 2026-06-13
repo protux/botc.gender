@@ -92,7 +92,10 @@ cd web && npm run sync-data
 Quellen:
 
 - [TPI botc-translations/game/de.json](https://github.com/ThePandemoniumInstitute/botc-translations) — offizielle deutsche Texte
+- [TPI botc-translations/game/en.json](https://github.com/ThePandemoniumInstitute/botc-translations) — offizielle englische Texte (Ergänzung fehlender Rollen)
 - [RealVidy botc-translations](https://github.com/RealVidy/botc-translations) — Metadaten und Fallback-Reminder
+
+`scripts/merge_characters_en.py` ergänzt Rollen, die in RealVidy fehlen (z. B. `shugenja`), anhand der TPI-Texte und Wiki-Typen.
 
 ## Tests
 

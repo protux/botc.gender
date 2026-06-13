@@ -145,6 +145,14 @@ def test_default_images_use_community_source(store):
         assert len(entry["ability"]) <= 250
 
 
+def test_shugenja_converts(store):
+    raw = json.loads((FIXTURES / "shugenja.json").read_text(encoding="utf-8"))
+    result = convert_script(store, raw, strategy="official-override")
+    shugenja = next(entry for entry in result if entry.get("id") == "shugenja")
+    assert shugenja["name"] == "Shugenja"
+    assert "Spieler:in" in shugenja["ability"] or "Spieler:innen" in shugenja["ability"]
+
+
 def test_cli_pdf_targets(capsys):
     from botc_gender.cli import main
 
