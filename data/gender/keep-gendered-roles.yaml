@@ -1,0 +1,28 @@
+# Role IDs whose display name keeps explicit gender from the official translation.
+# Ability and reminder texts are still gendered where replacements apply.
+- id: grandmother
+- id: scarletwoman
+- id: princess
+- id: chambermaid
+- id: duchess
+- id: fortuneteller
+- id: highpriestess
+- id: magician
+- id: matron
+- id: seamstress
+- id: tealady
+- id: virgin
+- id: widow
+- id: witch
+- id: acrobat
+- id: king
+- id: casanova
+- id: godfather
+- id: devilsadvocate
+- id: choirboy
+- id: huntsman
+- id: general
+- id: pope
+- id: saint
+- id: baron
+- id: fool

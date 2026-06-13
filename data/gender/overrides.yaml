@@ -1,0 +1,7 @@
+# Per-character overrides applied after automatic gendering.
+# Keys: name, ability, firstNightReminder, otherNightReminder, flavor, reminders (list)
+librarian:
+  name: "Bibliothekar:in"
+
+devilsadvocate:
+  name: "Teufelsadvokat:in"
