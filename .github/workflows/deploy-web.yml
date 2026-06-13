@@ -33,7 +33,9 @@ jobs:
       - name: Build
         working-directory: web
         env:
-          VITE_BASE_PATH: /${{ github.event.repository.name }}/
+          # Root base for custom domains (e.g. botc-gender.example.com).
+          # For github.io/<repo>/ subpath hosting, set to /${{ github.event.repository.name }}/ instead.
+          VITE_BASE_PATH: /
         run: npm run build
 
       - uses: actions/upload-pages-artifact@v3
