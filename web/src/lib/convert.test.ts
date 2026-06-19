@@ -56,6 +56,21 @@ describe("gender conversion", () => {
     expect(librarian.ability).not.toContain("Spielern");
   });
 
+  it("uses neutral phrasing for mayor ability", () => {
+    const raw = loadFixture("everyone-can-play.json");
+    const result = convertScript(store, raw, { strategy: "official-override" });
+    const mayor = result.find(
+      (entry) =>
+        typeof entry === "object" &&
+        entry !== null &&
+        (entry as Record<string, unknown>).id === "mayor",
+    ) as Record<string, string>;
+
+    expect(mayor.ability).toContain("3 Personen leben");
+    expect(mayor.ability).toContain("eine andere Person sterben");
+    expect(mayor.ability).not.toContain("Spieler");
+  });
+
   it("uses custom suffix strategy by default", () => {
     const raw = loadFixture("everyone-can-play.json");
     const result = convertScript(store, raw);

@@ -38,17 +38,31 @@ function fixPluralSpielerIn(text: string): string {
   });
 }
 
+function replaceWithBackrefs(
+  text: string,
+  pattern: RegExp,
+  replacement: string,
+): string {
+  return text.replace(pattern, (...args) => {
+    const groups = args.slice(1, -2) as string[];
+    return replacement.replace(/\\(\d+)/g, (_match, index: string) => {
+      const group = groups[Number.parseInt(index, 10) - 1];
+      return group ?? "";
+    });
+  });
+}
+
 export function applyReplacements(text: string, config: GenderConfig): string {
   if (!text) {
     return text;
   }
   let result = fixNumberedSpielerColon(text);
   for (const [pattern, replacement] of config.replacements) {
-    result = result.replace(pattern, replacement);
+    result = replaceWithBackrefs(result, pattern, replacement);
   }
   result = fixPluralSpielerIn(result);
   for (const [pattern, replacement] of config.pronouns) {
-    result = result.replace(pattern, replacement);
+    result = replaceWithBackrefs(result, pattern, replacement);
   }
   for (const [pattern, replacement] of DOUBLE_GENDER_PATTERNS) {
     result = result.replace(pattern, replacement);

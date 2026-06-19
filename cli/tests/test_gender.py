@@ -56,8 +56,9 @@ def test_monk_keeps_name_and_neutral_ability(store):
 
 def test_mayor_neutral_phrasing(store):
     texts = build_gendered_role_texts(store, "mayor")
-    assert "3 Spieler:innen leben" in texts["ability"]
+    assert "3 Personen leben" in texts["ability"]
     assert "eine andere Person sterben" in texts["ability"]
+    assert "Spieler" not in texts["ability"]
 
 
 def test_moonchild_neutral_phrasing(store):

@@ -1,6 +1,10 @@
 # Word-level replacements for gender-inclusive German (Doppelpunkt).
 # Applied in order; longer/more specific patterns should come first.
 # Base stems use (?!:in) so already-gendered forms (Spieler:innen) are not matched again.
+- pattern: "\\bnur noch (\\d+) Spieler leben\\b"
+  replacement: "nur noch \\1 Personen leben"
+- pattern: "\\bein anderer Spieler\\b"
+  replacement: "eine andere Person"
 - pattern: "\\bSpielerinnen\\b"
   replacement: "Spieler:innen"
 - pattern: "\\bSpielerin\\b"
