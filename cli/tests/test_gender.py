@@ -64,7 +64,7 @@ def test_mayor_neutral_phrasing(store):
 def test_moonchild_neutral_phrasing(store):
     texts = build_gendered_role_texts(store, "moonchild")
     assert texts["name"] == "Mondkind"
-    assert "Falls die Person gut war" in texts["ability"]
+    assert "Falls es ein:e gute:r Spieler:in war" in texts["ability"]
     assert "ein guter" not in texts["ability"]
 
 

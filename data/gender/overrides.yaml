@@ -4,9 +4,6 @@ librarian:
   name: "Bibliothekar:in"
   ability: "Du weißt zu Beginn, dass 1 von 2 Spieler:innen ein:e bestimmte:r Außenseiter:in ist. (Oder dass keine mitspielen.)"
 
-devilsadvocate:
-  ability: "Wähle jede Nacht 1 lebendigen Spieler:in (1 andere:n als in der vorherigen Nacht). Falls die Person am nächsten Tag hingerichtet wird, stirbt die Person nicht."
-
 fortuneteller:
   name: "Wahrsager:in"
   ability: "Wähle jede Nacht 2 Spieler:innen. Du erfährst, ob 1 davon der Dämon ist. 1 gute:r Spieler:in erscheint dir fälschlich als Dämon."
