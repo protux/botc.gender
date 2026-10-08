@@ -2,6 +2,7 @@
 # Keys: name, ability, firstNightReminder, otherNightReminder, flavor, reminders (list)
 librarian:
   name: "Bibliothekar:in"
+  ability: "Du weißt zu Beginn, dass 1 von 2 Spieler:innen ein:e bestimmte:r Außenseiter:in ist. (Oder dass keine mitspielen.)"
 
 devilsadvocate:
   ability: "Wähle jede Nacht 1 lebendigen Spieler:in (1 andere:n als in der vorherigen Nacht). Falls die Person am nächsten Tag hingerichtet wird, stirbt die Person nicht."
@@ -19,3 +20,18 @@ noble:
 
 amnesiac:
   name: "Vergessliche:r"
+
+artist:
+  ability: "Einmal im Spiel, während des Tages, stelle der/dem Erzähler:in geheim 1 beliebige Ja/Nein-Frage."
+
+moonchild:
+  ability: "Wenn du erfährst, dass du gestorben bist, wähle öffentlich 1 lebendige:n Spieler:in. Falls es ein:e gute:r Spieler:in war, stirbt die Person heute Nacht."
+
+baron:
+  ability: "Es sind zusätzliche Außenseiter:innen im Spiel. [+2 Außenseiter:innen]"
+
+devilsadvocate:
+  ability: "Wähle jede Nacht 1 lebendige:n Spieler:in (1 andere:n als in der vorherigen Nacht): Falls die Person am nächsten Tag hingerichtet wird, stirbt die Person nicht."
+
+scarletwoman:
+  ability: "Falls 5 oder mehr Spieler:innen lebendig sind & der Dämon stirbt, wirst du zum Dämon. (Reisende zählen nicht.)"
